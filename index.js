@@ -2,16 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const geolib = require('geolib');
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
 
 // Set up the database connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Bhavesh@07',
-    database: 'school_management'
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT
 });
 
 // Connect to the database
@@ -87,6 +89,7 @@ app.get('/listSchools', (req, res) => {
 });
 
 // Start the server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
